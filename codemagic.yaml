@@ -16,3 +16,13 @@ workflows:
           PROJECT=$(find . -maxdepth 1 -name "*.xcodeproj" -print -quit)
           test -n "$PROJECT"
           xcodebuild -list -project "$PROJECT"
+      - name: Compile iOS app
+        script: |
+          cd JialanVoiceStarter
+          xcodebuild build \
+            -project JialanVoiceStarter.xcodeproj \
+            -scheme JialanVoiceStarter \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO
