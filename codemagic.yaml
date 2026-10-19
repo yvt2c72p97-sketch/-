@@ -1,0 +1,18 @@
+workflows:
+  jialan-ios-check:
+    name: Jialan 3.0 iOS Check
+    instance_type: mac_mini_m2
+    max_build_duration: 30
+    environment:
+      xcode: latest
+    scripts:
+      - name: Generate Xcode project
+        script: |
+          cd JialanVoiceStarter
+          if ! command -v xcodegen >/dev/null 2>&1; then
+            brew install xcodegen
+          fi
+          xcodegen generate
+          PROJECT=$(find . -maxdepth 1 -name "*.xcodeproj" -print -quit)
+          test -n "$PROJECT"
+          xcodebuild -list -project "$PROJECT"
